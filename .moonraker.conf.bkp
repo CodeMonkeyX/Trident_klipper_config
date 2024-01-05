@@ -1,17 +1,12 @@
 [server]
 host = 0.0.0.0
 port = 7125
+klippy_uds_address = /home/nick/printer_data/comms/klippy.sock
 
 [file_manager]
 enable_object_processing = True
 
 [authorization]
-cors_domains = 
-	*.nys.cloud
-	https://my.mainsail.xyz
-	http://my.mainsail.xyz
-	http://*.local
-	http://*.lan
 trusted_clients = 
 	10.0.0.0/8
 	127.0.0.0/8
@@ -20,30 +15,55 @@ trusted_clients =
 	192.168.0.0/16
 	FE80::/10
 	::1/128
+cors_domains = 
+	*.lan
+	*.local
+	*://localhost
+	*://localhost:*
+	*://my.mainsail.xyz
+	*://app.fluidd.xyz
+	*://nys.cloud
 
 [octoprint_compat]
 
 [history]
 
 [update_manager]
+channel = dev
 enable_auto_refresh = True
 refresh_interval = 168
 
+[update_manager mainsail-config]
+type = git_repo
+primary_branch = master
+path = ~/mainsail-config
+origin = https://github.com/mainsail-crew/mainsail-config.git
+managed_services = klipper
+
 [update_manager mainsail]
 type = web
+channel = stable
 repo = mainsail-crew/mainsail
 path = ~/mainsail
 
-[update_manager client z_calibration]
+[update_manager Klipper-Adaptive-Meshing-Purging]
 type = git_repo
-path = ~/klipper_z_calibration
+channel = dev
+path = ~/Klipper-Adaptive-Meshing-Purging
+origin = https://github.com/kyleisah/Klipper-Adaptive-Meshing-Purging.git
+managed_services = klipper
+primary_branch = main
+
+[update_manager z_calibration]
+type = git_repo
+path = /home/nick/klipper_z_calibration
 origin = https://github.com/protoloft/klipper_z_calibration.git
-install_script = install.sh
 managed_services = klipper
 
-[update_manager led_effect]
+[update_manager crowsnest]
 type = git_repo
-path = ~/klipper-led_effect
-origin = https://github.com/julianschill/klipper-led_effect.git
-is_system_service = False
+path = ~/crowsnest
+origin = https://github.com/mainsail-crew/crowsnest.git
+managed_services = crowsnest
+install_script = tools/pkglist.sh
 
